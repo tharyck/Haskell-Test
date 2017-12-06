@@ -15,8 +15,6 @@ testTripleSnd = TestCase (assertEqual "Test of Snd element" 2 (tripleFst(Triple 
 testTripleThr = TestCase (assertEqual "Test of Thr element" 3 (tripleFst(Triple 1 2 3)))
 -- Falta assert Error com teste null
 
-
-
 --Escreva um tipo Quadruple que contem 4 elementos: dois de um mesmo tipo e outros dois de outro tipo
 --Escreva as funcoes frstTwo e secondTwo que retornam os dois primeiros e os dois ultimos, respectivamente
 data Quadruple a b = Quadruple a a b b
@@ -62,6 +60,11 @@ data BinaryTree a = NIL | Node a (BinaryTree a) (BinaryTree a)
 sizeBST NIL = 0
 sizeBST (Node a left right) = 1 + sizeBST left + sizeBST right
 
+testsize1 = TestCase (assertEqual "size of empty tree" 0 (sizeBST NIL))
+testsize2 = TestCase (assertEqual "size of very unbalanced tree" 5 (sizeBST (Node 3 NIL (Node 4 NIL (Node 5 NIL (Node 9 (Node 7 NIL NIL) NIL))) )))
+testsize3 = TestCase (assertEqual "size of balanced tree" 3 (sizeBST (Node 3 (Node (-1) NIL NIL) (Node 4 NIL NIL))))
+
+
 --verifica se uma BT é uma BST
 isBST NIL = True
 isBST (Node a NIL NIL) = True
@@ -69,11 +72,19 @@ isBST (Node a (Node b left right) NIL) = b <= a && isBST (Node b left right)
 isBST (Node a NIL (Node b left right)) = b >= a && isBST (Node b left right)
 isBST (Node a (Node b left right) (Node c lleft rright)) = b <= a && a <= c && isBST (Node b left right) && isBST (Node c lleft rright)
 
+testisbst1 = TestCase (assertEqual "correct BST tree" True (isBST (Node 10 (Node 0 NIL (Node 5 NIL NIL)) (Node 20 (Node 15 NIL NIL) (Node 40 NIL NIL)))))
+testisbst2 = TestCase (assertEqual "node with 7 in wrong position" False (isBST (Node 10 (Node 5 (Node 1 NIL NIL) (Node 6 NIL NIL)) (Node 20 (Node 7 NIL NIL) (Node 99 NIL NIL)))))
+testisbst3 = TestCase (assertEqual "node with 17 in wrong position" False (isBST (Node 10 (Node 5 NIL (Node 17 NIL NIL)) (Node 20 NIL NIL))))
+
 --insere uma nova chave na BST retornando a BST modificada
 insert x NIL = (Node x) NIL NIL
 insert x (Node a (left) (right)) = if x < a
   then Node a (insert x left) (right)
   else Node a (left) (insert x right)
+
+testinsert1 = TestCase (assertEqual "insert in left position" (Node 10 (Node 5 NIL NIL) (Node 20 (Node 17 NIL NIL) NIL)) (insert 17 (Node 10 (Node 5 NIL NIL) (Node 20 NIL NIL)) ))
+testinsert2 = TestCase (assertEqual "insert in right position" (Node 10 (Node 5 NIL NIL) (Node 20 NIL (Node 22 NIL NIL))) (insert 22 (Node 10 (Node 5 NIL NIL) (Node 20 NIL NIL)) ))
+testinsert3 = TestCase (assertEqual "insert in an empty tree" (Node 40 NIL NIL) (insert 40  NIL))
 
 --retorna o Node da BST contendo o dado procurado ou entao NIL
 search x NIL = NIL
@@ -82,6 +93,9 @@ search x (Node a (left) (right)) = if x == a
   else (if x < a
     then search x (left)
     else search x (right))
+testsearch1 = TestCase (assertEqual "search tree's node " (Node 90 NIL (Node 100 NIL NIL)) (search 90 (Node 10 (Node 2 NIL NIL) (Node 90 NIL (Node 100 NIL NIL)))))
+testsearch2 = TestCase (assertEqual "search tree's root" (Node 10 (Node 2 NIL NIL) (Node 90 NIL (Node 100 NIL NIL))) (search 10 (Node 10 (Node 2 NIL NIL) (Node 90 NIL (Node 100 NIL NIL)))))
+testsearch3 = TestCase (assertEqual "search for node that hasn't in tree" NIL (search 110 (Node 10 (Node 2 NIL NIL) (Node 90 NIL (Node 100 NIL NIL)))))
 
 --retorna no com elmento maximo da BST
 --maximum NIL = NIL
@@ -97,11 +111,17 @@ search x (Node a (left) (right)) = if x == a
 predecessor x (Node a left right) = if search x (Node a left right) /= NIL
   then (order (Node a left right) !! (position x (Node a left right) - 1))
   else x
---retorna o sucessor de um elemento da BST, caso o elemento esteja na BST
 
+testpredecessor1 = TestCase (assertEqual "predecessor in some lower position" 1  (predecessor 2 (Node 5 (Node 4 (Node 3 (Node 2 (Node 1 NIL NIL) NIL) NIL) NIL) NIL) ))
+testpredecessor2 = TestCase (assertEqual "predecessor in some higher position" 90  (predecessor 100 (Node 10 (Node 2 NIL NIL) (Node 90 NIL (Node 100 NIL NIL)))))
+
+--retorna o sucessor de um elemento da BST, caso o elemento esteja na BST
 successor x (Node a left right) = if search x (Node a left right) /= NIL
   then (order (Node a left right) !! (position x (Node a left right) + 1))
   else x
+
+testsuccessor1 = TestCase (assertEqual "successor in some lower position" 100  (successor 90 (Node 10 (Node 2 NIL NIL) (Node 90 NIL (Node 100 NIL NIL)))))
+testsuccessor2 = TestCase (assertEqual "successor in some higher position" 3  (successor 2 (Node 5 (Node 4 (Node 3 (Node 2 (Node 1 NIL NIL) NIL) NIL) NIL) NIL) ))
 
 --Remove um dado elemento
 remove x NIL = NIL
@@ -121,21 +141,32 @@ remove_action x (Node b NIL right) = right
 --elemento tem dois filhos
 remove_action x (Node b left right) = Node (successor b (Node b NIL right)) left (remove (successor b (Node b NIL right)) right)
 
+testremove1 = TestCase (assertEqual "remove node without children" (Node 10 (Node 2 NIL NIL) NIL) (remove 20 (Node 10 (Node 2 NIL NIL) (Node 20 NIL NIL))))
+testremove2 = TestCase (assertEqual "remove node that hasn't in tree" (Node 10 (Node 2 NIL NIL) (Node 20 NIL NIL)) (remove 90 (Node 10 (Node 2 NIL NIL) (Node 20 NIL NIL))))
+testremove3 = TestCase (assertEqual "remove node with single children" (Node 10 (Node 2 NIL NIL) (Node 100 NIL NIL)) (remove 90 (Node 10 (Node 2 NIL NIL) (Node 90 NIL (Node 100 NIL NIL)))))
+testremove4 = TestCase (assertEqual "remove node with dual childrens (get successor's way)" (Node 90 (Node 2 NIL NIL) (Node 100 NIL NIL)) (remove 10 (Node 10 (Node 2 NIL NIL) (Node 90 NIL (Node 100 NIL NIL)))))
+
 --retorna uma lista de nos com os dados da BST nos diversos tipos de caminhamento
 preOrder (Node a NIL NIL) = [getDate (Node a NIL NIL)]
 preOrder (Node a left NIL) = [getDate (Node a NIL NIL)] ++ preOrder left
 preOrder (Node a NIL right) = [getDate (Node a NIL NIL)] ++ preOrder right
 preOrder (Node a left right) = ([getDate (Node a NIL NIL)] ++ preOrder left) ++ preOrder right
 
+testpreorder = TestCase (assertEqual "testpreorder" [3,2,1,4] (preOrder (Node 3 (Node 2 (Node 1 NIL NIL) NIL) (Node 4 NIL NIL))))
+
 order (Node a NIL NIL) = [getDate (Node a NIL NIL)]
 order (Node a left NIL) = order left ++ [getDate (Node a NIL NIL)]
 order (Node a NIL right) = [getDate (Node a NIL NIL)] ++ order right
 order (Node a left right) = (order left ++ [getDate (Node a NIL NIL)]) ++ order right
 
+testorder = TestCase (assertEqual "testorder" [1,2,3,4] (order (Node 3 (Node 2 (Node 1 NIL NIL) NIL) (Node 4 NIL NIL))))
+
 postOrder (Node a NIL NIL) = [getDate (Node a NIL NIL)]
 postOrder (Node a left NIL) = postOrder left ++ [getDate (Node a NIL NIL)]
 postOrder (Node a NIL right) = postOrder right ++ [getDate (Node a NIL NIL)]
 postOrder (Node a left right) = (postOrder left ++ postOrder right) ++ [getDate (Node a NIL NIL)]
+
+testpostorder = TestCase (assertEqual "testpostorder" [1,2,4,3] (postOrder (Node 3 (Node 2 (Node 1 NIL NIL) NIL) (Node 4 NIL NIL))))
 
 getDate (Node a left right) = a
 
@@ -150,41 +181,10 @@ position_search x (a : xs) p = if x == a
   then p
   else position_search x (xs) (p + 1)
 
-testsize1 = TestCase (assertEqual "size of empty tree" 0 (sizeBST NIL))
-testsize2 = TestCase (assertEqual "size of very unbalanced tree" 5 (sizeBST (Node 3 NIL (Node 4 NIL (Node 5 NIL (Node 9 (Node 7 NIL NIL) NIL))) )))
-testsize3 = TestCase (assertEqual "size of balanced tree" 3 (sizeBST (Node 3 (Node (-1) NIL NIL) (Node 4 NIL NIL))))
-
-testisbst1 = TestCase (assertEqual "correct BST tree" True (isBST (Node 10 (Node 0 NIL (Node 5 NIL NIL)) (Node 20 (Node 15 NIL NIL) (Node 40 NIL NIL)))))
-testisbst2 = TestCase (assertEqual "node with 7 in wrong position" False (isBST (Node 10 (Node 5 (Node 1 NIL NIL) (Node 6 NIL NIL)) (Node 20 (Node 7 NIL NIL) (Node 99 NIL NIL)))))
-testisbst3 = TestCase (assertEqual "node with 17 in wrong position" False (isBST (Node 10 (Node 5 NIL (Node 17 NIL NIL)) (Node 20 NIL NIL))))
-
-testinsert1 = TestCase (assertEqual "insert in left position" (Node 10 (Node 5 NIL NIL) (Node 20 (Node 17 NIL NIL) NIL)) (insert 17 (Node 10 (Node 5 NIL NIL) (Node 20 NIL NIL)) ))
-testinsert2 = TestCase (assertEqual "insert in right position" (Node 10 (Node 5 NIL NIL) (Node 20 NIL (Node 22 NIL NIL))) (insert 22 (Node 10 (Node 5 NIL NIL) (Node 20 NIL NIL)) ))
-testinsert3 = TestCase (assertEqual "insert in an empty tree" (Node 40 NIL NIL) (insert 40  NIL))
-
-testsearch1 = TestCase (assertEqual "search tree's node " (Node 90 NIL (Node 100 NIL NIL)) (search 90 (Node 10 (Node 2 NIL NIL) (Node 90 NIL (Node 100 NIL NIL)))))
-testsearch2 = TestCase (assertEqual "search tree's root" (Node 10 (Node 2 NIL NIL) (Node 90 NIL (Node 100 NIL NIL))) (search 10 (Node 10 (Node 2 NIL NIL) (Node 90 NIL (Node 100 NIL NIL)))))
-testsearch3 = TestCase (assertEqual "search for node that hasn't in tree" NIL (search 110 (Node 10 (Node 2 NIL NIL) (Node 90 NIL (Node 100 NIL NIL)))))
-
 --testmaximum1 = TestCase (assertEqual "testmaximum1" 20  (maximum (Node 10 (Node 5 NIL NIL) (Node 20 NIL NIL)) ))
 --testmaximum2 = TestCase (assertEqual "testmaximum2" 9  (maximum (Node 5 NIL (Node 6 NIL (Node 7 NIL (Node 8 NIL (Node 9 NIL NIL)))) ) ))
 
 --testminimum1 = TestCase (assertEqual "testminimum1" 5  (minimum (Node 10 (Node 5 NIL NIL) (Node 20 NIL NIL)) ))
 --testminimum2 = TestCase (assertEqual "testminimum2" 1  (minimum (Node 5 (Node 4 (Node 3 (Node 2 (Node 1 NIL NIL) NIL) NIL) NIL) NIL) ))
-
-testpredecessor1 = TestCase (assertEqual "predecessor in some lower position" 1  (predecessor 2 (Node 5 (Node 4 (Node 3 (Node 2 (Node 1 NIL NIL) NIL) NIL) NIL) NIL) ))
-testpredecessor2 = TestCase (assertEqual "predecessor in some higher position" 90  (predecessor 100 (Node 10 (Node 2 NIL NIL) (Node 90 NIL (Node 100 NIL NIL)))))
-
-testsuccessor1 = TestCase (assertEqual "successor in some lower position" 100  (successor 90 (Node 10 (Node 2 NIL NIL) (Node 90 NIL (Node 100 NIL NIL)))))
-testsuccessor2 = TestCase (assertEqual "successor in some higher position" 3  (successor 2 (Node 5 (Node 4 (Node 3 (Node 2 (Node 1 NIL NIL) NIL) NIL) NIL) NIL) ))
-
-testremove1 = TestCase (assertEqual "remove node without children" (Node 10 (Node 2 NIL NIL) NIL) (remove 20 (Node 10 (Node 2 NIL NIL) (Node 20 NIL NIL))))
-testremove2 = TestCase (assertEqual "remove node that hasn't in tree" (Node 10 (Node 2 NIL NIL) (Node 20 NIL NIL)) (remove 90 (Node 10 (Node 2 NIL NIL) (Node 20 NIL NIL))))
-testremove3 = TestCase (assertEqual "remove node with single children" (Node 10 (Node 2 NIL NIL) (Node 100 NIL NIL)) (remove 90 (Node 10 (Node 2 NIL NIL) (Node 90 NIL (Node 100 NIL NIL)))))
-testremove4 = TestCase (assertEqual "remove node with dual childrens (get successor's way)" (Node 90 (Node 2 NIL NIL) (Node 100 NIL NIL)) (remove 10 (Node 10 (Node 2 NIL NIL) (Node 90 NIL (Node 100 NIL NIL)))))
-
-testpreorder = TestCase (assertEqual "testpreorder" [3,2,1,4] (preOrder (Node 3 (Node 2 (Node 1 NIL NIL) NIL) (Node 4 NIL NIL))))
-testorder = TestCase (assertEqual "testorder" [1,2,3,4] (order (Node 3 (Node 2 (Node 1 NIL NIL) NIL) (Node 4 NIL NIL))))
-testpostorder = TestCase (assertEqual "testpostorder" [1,2,4,3] (postOrder (Node 3 (Node 2 (Node 1 NIL NIL) NIL) (Node 4 NIL NIL))))
 
 tests = TestList [testsize1,testsize2,testsize3,testisbst1,testisbst2,testisbst3,testinsert1,testinsert2,testinsert3,testsearch1,testsearch2,testsearch3,testpredecessor1,testpredecessor2,testsuccessor1,testsuccessor2,testremove1,testremove2,testremove3,testremove4,testpreorder,testorder,testpostorder]
