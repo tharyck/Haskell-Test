@@ -10,9 +10,9 @@ tripleFst (Triple a b c) = a
 tripleSnd (Triple a b c) = b
 tripleThr (Triple a b c) = c
 
-testTripleFst = TestCase (assertEqual "Test of FST element" 1 (tripleFst(Triple 1 2 3)))
-testTripleSnd = TestCase (assertEqual "Test of Snd element" 2 (tripleFst(Triple 1 2 3)))
-testTripleThr = TestCase (assertEqual "Test of Thr element" 3 (tripleFst(Triple 1 2 3)))
+testTripleFst = TestCase (assertEqual "Test of Fst element" 1 (tripleFst(Triple 1 2 3)))
+testTripleSnd = TestCase (assertEqual "Test of Snd element" 2 (tripleSnd(Triple 1 2 3)))
+testTripleThr = TestCase (assertEqual "Test of Thr element" 3 (tripleThr(Triple 1 2 3)))
 -- Falta assert Error com teste null
 
 --Escreva um tipo Quadruple que contem 4 elementos: dois de um mesmo tipo e outros dois de outro tipo
@@ -40,11 +40,20 @@ data List a = Nil | Cons a (List a) deriving (Eq,Show)
 listLength Nil = 0
 listLength (Cons x xs) = 1 + listLength xs
 
+testListLength = TestCase (assertEqual "Testa listLength para Nil" 0 (listLength Nil))
+-- testListLength = TestCase (assertEqual "Testa listLength para Nil" 0 (listLength Nil))
+
+
 listHead Nil = error "Empty list"
 listHead (Cons x xs) = x
 
+-- testListHead = TestCase (assertFailure  error "Empty list" (listHead Nil)) 
+
 listTail Nil = Nil
 listTail (Cons x xs) = xs
+
+-- testListTail = TestCase (assertEqual "Testa listTail para Nil" Nil (listTail Nil))
+
 
 listFoldr f v Nil = v
 listFoldr f v (Cons x xs) = f x (listFoldr f v xs)
