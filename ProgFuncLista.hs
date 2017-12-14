@@ -1,6 +1,5 @@
 import Test.HUnit
 
-data Maybe x = Just x | Nothing
 --Escreva a declaracao para o tipo Triple, contendo tres elementos, todos de tipos diferentes.
 --Escreva funcoes tripleFst, tripleSnd, tripleThr para extrair respectivamente o primeiro, segundo e terceiro
 -- elementos de uma triple.
@@ -28,12 +27,26 @@ testSecondTwo = TestCase (assertEqual "Test of secondTwo elements" (3,4) (second
 
 --Escreva um tipo de dados que pode conter um, dois, tres ou quatro elementos, dependendo do construtor
 --Implemente funções tuple1 até tuple4 que que retornam Just <valor> ou Nothing se o valor nao existe
-data Tuple a b c d = TupleA a | TupleB a b | TupleC a b c | TupleD a b c d  deriving (Eq,Show)
+data Tuple a b c d = Tuple1 a | Tuple2 a b | Tuple3 a b c | Tuple4 a b c d deriving(Eq, Show)
 
-tuple1 = undefined
-tuple2 = undefined
-tuple3 = undefined
-tuple4 = undefined
+tuple1 (Tuple1 a) = a
+tuple1 (Tuple2 a b) = a
+tuple1 (Tuple3 a b c) = a 
+tuple1 (Tuple4 a b c d) = a
+
+tuple2 (Tuple2 a b) = Just b
+tuple2 (Tuple3 a b c) = Just b 
+tuple2 (Tuple4 a b c d) = Just b
+tuple2 _ = Nothing
+
+
+tuple3 (Tuple3 a b c) = Just c
+tuple3 (Tuple4 a b c d) = Just c
+tuple3 _ = Nothing
+
+tuple4 (Tuple4 a b c d) = Just d
+tuple4 _ = Nothing
+
 
 data List a = Nil | Cons a (List a) deriving (Eq,Show)
 
@@ -190,10 +203,77 @@ position_search x (a : xs) p = if x == a
   then p
   else position_search x (xs) (p + 1)
 
+-- Testes BST - Igor Brasileiro --
+-- fazer metodo fullfill?
+
+tree1 = (Node 10 NIL NIL)
+tree2 = (Node 10 NIL (Node 18 NIL NIL))
+tree3 = (Node 10 (Node 2 NIL NIL) (Node 18 NIL NIL))
+tree4 = (Node 10 (Node 2 NIL NIL) (Node 18 (Node 13 NIL NIL) NIL))
+tree5 = (Node 10 (Node 2 NIL NIL) (Node 18 (Node 13 NIL NIL) (Node 19 NIL NIL)))
+tree6 = (Node 10 (Node 2 NIL (Node 8 NIL NIL)) (Node 18 (Node 13 NIL NIL) (Node 19 NIL NIL)))
+tree7 = (Node 10 (Node 2 (Node (-1) NIL NIL) (Node 8 NIL NIL)) (Node 18 (Node 13 NIL NIL) (Node 19 NIL NIL)))
+
+treeSearchNeg1 = (Node (-1) NIL NIL)
+treeSearch18 = (Node 18 (Node 13 NIL NIL) (Node 19 NIL NIL))
+treeSearch13 = (Node 13 NIL NIL)
+
+-- test insert
+-- posso fazer somente os inserts e verificar a tree7?
+testInsert10 =  TestCase (assertEqual "testInsert10" tree1 (insert 10 NIL))
+testInsert18 = TestCase (assertEqual "testInsert18" tree2 (insert 18 tree1))
+testInsert2 = TestCase (assertEqual "testInsert2" tree3 (insert 2 tree2))
+testInsert13 = TestCase (assertEqual "testInsert13" tree4 (insert 13 tree3))
+testInsert19 = TestCase (assertEqual "testInsert19" tree5 (insert 19 tree4))
+testInsert8 = TestCase (assertEqual "testInsert8" tree6 (insert 8 tree5))
+testInsertNeg1 = TestCase (assertEqual "testInsertNeg1" tree7 (insert (-1) tree6))
+
+--test size
+testSize1 = TestCase (assertEqual "testSize1" 7 (sizeBST tree7))
+testSize2 = TestCase (assertEqual "testSize2" 6 (sizeBST tree6))
+testSizeNIL = TestCase (assertEqual "testSizeNIL" 0 (sizeBST NIL))
+
+-- test search
+testSearchNeg1 = TestCase (assertEqual "testSearchNeg1" treeSearchNeg1 (search (-1) tree7))
+testSearch18 = TestCase (assertEqual "testSearch18" treeSearch18 (search 18 tree7))
+testSearch13 = TestCase (assertEqual "testSearch13" treeSearch13 (search 13 tree7))
+testSearchRoot = TestCase (assertEqual "testSearchRoot" tree7 (search 10 tree7)) -- pesquisa root
+testSearchNoExist = TestCase (assertEqual "testSearchNoExist" NIL (search 33 tree7))
+
+
+-- test remove
+-- remover 13
+
+-- Termino Testes BST - Igor Brasileiro --
+
+
 --testmaximum1 = TestCase (assertEqual "testmaximum1" 20  (maximum (Node 10 (Node 5 NIL NIL) (Node 20 NIL NIL)) ))
 --testmaximum2 = TestCase (assertEqual "testmaximum2" 9  (maximum (Node 5 NIL (Node 6 NIL (Node 7 NIL (Node 8 NIL (Node 9 NIL NIL)))) ) ))
 
 --testminimum1 = TestCase (assertEqual "testminimum1" 5  (minimum (Node 10 (Node 5 NIL NIL) (Node 20 NIL NIL)) ))
 --testminimum2 = TestCase (assertEqual "testminimum2" 1  (minimum (Node 5 (Node 4 (Node 3 (Node 2 (Node 1 NIL NIL) NIL) NIL) NIL) NIL) ))
 
-tests = TestList [testsize1,testsize2,testsize3,testisbst1,testisbst2,testisbst3,testinsert1,testinsert2,testinsert3,testsearch1,testsearch2,testsearch3,testpredecessor1,testpredecessor2,testsuccessor1,testsuccessor2,testremove1,testremove2,testremove3,testremove4,testpreorder,testorder,testpostorder]
+tests = TestList [testsize1,testsize2,testsize3,testisbst1,testisbst2,
+                  testisbst3,testinsert1,testinsert2,testinsert3,testsearch1,
+                  testsearch2,testsearch3,testpredecessor1,testpredecessor2,
+                  testsuccessor1,testsuccessor2,testremove1,testremove2,
+                  testremove3,testremove4,testpreorder,testorder,testpostorder,
+                  testInsert10, testInsert18, testInsert2, testInsert13, testInsert19,
+                  testInsert8, testInsertNeg1, testSize1, testSize2, testSizeNIL,
+                  testSearchNeg1, testSearch18, testSearch13, testSearchRoot, testSearchNoExist]
+
+-- Por favor atualizar esta lista
+{- 
+  sizeBST - Igor - OK
+  isBST - Igor - vou fazer
+  insert - Igor - OK
+  search - Igor - OK
+  maximu
+  minimu
+  predecessor 
+  sucessor
+  remove - Igor - vou fazer
+  preOrder
+  postOrder
+  order
+-}
