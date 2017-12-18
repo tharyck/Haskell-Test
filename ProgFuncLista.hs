@@ -278,9 +278,6 @@ testRemove3a = TestCase (assertEqual "testRemove3a" NIL (search 6 tree7))
 testRemove3a = TestCase (assertEqual "testRemoveNIL" NIL (remove 10 NIL))
 
 
--- Termino Testes BST - Igor Brasileiro --
-
---Teste de Wagner Inicio--
 -- test maximum
 testmaximumTree1 = TestCase (assertEqual "testmaximumTree1" 10  (maximum (tree1))
 testmaximumTree2 = TestCase (assertEqual "testmaximumTree2" 18  (maximum (tree2))
@@ -299,10 +296,8 @@ testminimuTree5 = TestCase (assertEqual "testminimuTree5" 2  (minimu (tree3))
 testminimuTree6 = TestCase (assertEqual "testminimuTree6" 2  (minimu (tree3))
 testminimuTree7 = TestCase (assertEqual "testminimuTree7" -1  (minimu (tree3))  
 
+-- Termino Testes BST - 
 
-
-
---Teste de Wagner Fim--
 
 tests = TestList [testsize1,testsize2,testsize3,testisbst1,testisbst2,
                   testisbst3,testinsert1,testinsert2,testinsert3,testsearch1,
@@ -324,8 +319,8 @@ tests = TestList [testsize1,testsize2,testsize3,testisbst1,testisbst2,
   isBST - Igor - vou fazer
   insert - Igor - OK
   search - Igor - OK
-  maximu
-  minimu
+  maximu - Wagner - ok
+  minimu - Wagner - ok
   predecessor 
   sucessor
   remove - Igor - vou fazer
