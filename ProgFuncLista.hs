@@ -12,7 +12,6 @@ tripleThr (Triple a b c) = c
 testTripleFst = TestCase (assertEqual "Test of Fst element" 1 (tripleFst(Triple 1 2 3)))
 testTripleSnd = TestCase (assertEqual "Test of Snd element" 2 (tripleSnd(Triple 1 2 3)))
 testTripleThr = TestCase (assertEqual "Test of Thr element" 3 (tripleThr(Triple 1 2 3)))
--- Falta assert Error com teste null
 
 --Escreva um tipo Quadruple que contem 4 elementos: dois de um mesmo tipo e outros dois de outro tipo
 --Escreva as funcoes frstTwo e secondTwo que retornam os dois primeiros e os dois ultimos, respectivamente
@@ -23,7 +22,6 @@ secondTwo (Quadruple a b c d) = (c,d)
 
 testFirstTwo = TestCase (assertEqual "Test of firstTwo elements" (1,2) (firstTwo(Quadruple 1 2 3 4)))
 testSecondTwo = TestCase (assertEqual "Test of secondTwo elements" (3,4) (secondTwo(Quadruple 1 2 3 4)))
--- Falta assert Error com teste null
 
 --Escreva um tipo de dados que pode conter um, dois, tres ou quatro elementos, dependendo do construtor
 --Implemente funções tuple1 até tuple4 que que retornam Just <valor> ou Nothing se o valor nao existe
@@ -34,19 +32,31 @@ tuple1 (Tuple2 a b) = a
 tuple1 (Tuple3 a b c) = a 
 tuple1 (Tuple4 a b c d) = a
 
+testTuple1and1 = TestCase(assertEqual "Test Tuple 1 for 1 element" 1 (tuple1(Tuple1 1)))
+testTuple1and2 = TestCase(assertEqual "Test Tuple 1 for 2 element" 1 (tuple1(Tuple2 1 2)))
+testTuple1and3 = TestCase(assertEqual "Test Tuple 1 for 3 element" 1 (tuple1(Tuple3 1 2 3)))
+testTuple1and4 = TestCase(assertEqual "Test Tuple 1 for 4 element" 1 (tuple1(Tuple4 1 2 3 4)))
+
 tuple2 (Tuple2 a b) = Just b
 tuple2 (Tuple3 a b c) = Just b 
 tuple2 (Tuple4 a b c d) = Just b
 tuple2 _ = Nothing
 
+testTuple2and2 = TestCase(assertEqual "Test Tuple 2 for 2 element" Just 2 (tuple2(Tuple2 1 2)))
+-- testTuple2and3 = TestCase(assertEqual "Test Tuple 2 for 3 element" 2 (tuple2(Tuple3 1 2 3)))
+-- testTuple2and4 = TestCase(assertEqual "Test Tuple 2 for 4 element" 2 (tuple2(Tuple4 1 2 3 4)))
 
 tuple3 (Tuple3 a b c) = Just c
 tuple3 (Tuple4 a b c d) = Just c
 tuple3 _ = Nothing
 
+-- testTuple3and3 = TestCase(assertEqual "Test Tuple 3 for 3 element" 3 (tuple3(Tuple3 1 2 3)))
+-- testTuple3and4 = TestCase(assertEqual "Test Tuple 3 for 4 element" 3 (tuple3(Tuple4 1 2 3 4)))
+
 tuple4 (Tuple4 a b c d) = Just d
 tuple4 _ = Nothing
 
+-- testTuple4and4 = TestCase(assertEqual "Test Tuple 4 for 4 element" 4 (tuple4(Tuple4 1 2 3 4)))
 
 data List a = Nil | Cons a (List a) deriving (Eq,Show)
 
