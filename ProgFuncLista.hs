@@ -42,21 +42,21 @@ tuple2 (Tuple3 a b c) = Just b
 tuple2 (Tuple4 a b c d) = Just b
 tuple2 _ = Nothing
 
-testTuple2and2 = TestCase(assertEqual "Test Tuple 2 for 2 element" Just 2 (tuple2(Tuple2 1 2)))
--- testTuple2and3 = TestCase(assertEqual "Test Tuple 2 for 3 element" 2 (tuple2(Tuple3 1 2 3)))
--- testTuple2and4 = TestCase(assertEqual "Test Tuple 2 for 4 element" 2 (tuple2(Tuple4 1 2 3 4)))
+testTuple2and2 = TestCase(assertEqual "Test Tuple 2 for 2 element" (Just 2) (tuple2(Tuple2 1 2)))
+testTuple2and3 = TestCase(assertEqual "Test Tuple 2 for 3 element" (Just 2) (tuple2(Tuple3 1 2 3)))
+testTuple2and4 = TestCase(assertEqual "Test Tuple 2 for 4 element" (Just 2) (tuple2(Tuple4 1 2 3 4)))
 
 tuple3 (Tuple3 a b c) = Just c
 tuple3 (Tuple4 a b c d) = Just c
 tuple3 _ = Nothing
 
--- testTuple3and3 = TestCase(assertEqual "Test Tuple 3 for 3 element" 3 (tuple3(Tuple3 1 2 3)))
--- testTuple3and4 = TestCase(assertEqual "Test Tuple 3 for 4 element" 3 (tuple3(Tuple4 1 2 3 4)))
+testTuple3and3 = TestCase(assertEqual "Test Tuple 3 for 3 element" (Just 3) (tuple3(Tuple3 1 2 3)))
+testTuple3and4 = TestCase(assertEqual "Test Tuple 3 for 4 element" (Just 3) (tuple3(Tuple4 1 2 3 4)))
 
 tuple4 (Tuple4 a b c d) = Just d
 tuple4 _ = Nothing
 
--- testTuple4and4 = TestCase(assertEqual "Test Tuple 4 for 4 element" 4 (tuple4(Tuple4 1 2 3 4)))
+testTuple4and4 = TestCase(assertEqual "Test Tuple 4 for 4 element" (Just 4) (tuple4(Tuple4 1 2 3 4)))
 
 data List a = Nil | Cons a (List a) deriving (Eq,Show)
 
