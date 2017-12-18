@@ -219,15 +219,15 @@ arrayInsercao = [10, 18, 2, 13, 19, 8, -1]
 
 
 fullFill lista = fullFillTree (tail lista) newTree
-	where
-		newTree = insert (head lista) NIL
+      where
+            newTree = insert (head lista) NIL
 
 
 fullFillTree [] tree = tree
 
 fullFillTree lista tree = fullFillTree (tail lista) newTree
-	where
-		newTree = insert  (head lista) tree
+      where
+            newTree = insert  (head lista) tree
 
 tree1 = (Node 10 NIL NIL)
 tree2 = (Node 10 NIL (Node 18 NIL NIL))
@@ -273,15 +273,36 @@ testRemove2 = TestCase (assertEqual "testRemove2" 5 sizeBST(remove 13 (remove 18
 testRemove2a = TestCase (assertEqual "testRemove2a" NIL (search 13 (remove 13 (remove 18 tree7))))
 testRemove2b = TestCase (assertEqual "testRemove2b" (Node 19 NIL NIL) (search 19 (remove 13 (remove 18 tree7))))
 
+testRemove3 = TestCase (assertEqual "testRemove3" 6 sizeBST(remove 8 tree7))
+testRemove3a = TestCase (assertEqual "testRemove3a" NIL (search 6 tree7))
+testRemove3a = TestCase (assertEqual "testRemoveNIL" NIL (remove 10 NIL))
+
 
 -- Termino Testes BST - Igor Brasileiro --
 
+--Teste de Wagner Inicio--
+-- test maximum
+testmaximumTree1 = TestCase (assertEqual "testmaximumTree1" 10  (maximum (tree1))
+testmaximumTree2 = TestCase (assertEqual "testmaximumTree2" 18  (maximum (tree2))
+testmaximumTree3 = TestCase (assertEqual "testmaximumTree3" 18  (maximum (tree3))
+testmaximumTree4 = TestCase (assertEqual "testmaximumTree4" 18  (maximum (tree3))
+testmaximumTree5 = TestCase (assertEqual "testmaximumTree5" 19  (maximum (tree3))
+testmaximumTree6 = TestCase (assertEqual "testmaximumTree6" 19  (maximum (tree3))
+testmaximumTree7 = TestCase (assertEqual "testmaximumTree7" 19  (maximum (tree3))
 
---testmaximum1 = TestCase (assertEqual "testmaximum1" 20  (maximum (Node 10 (Node 5 NIL NIL) (Node 20 NIL NIL)) ))
---testmaximum2 = TestCase (assertEqual "testmaximum2" 9  (maximum (Node 5 NIL (Node 6 NIL (Node 7 NIL (Node 8 NIL (Node 9 NIL NIL)))) ) ))
+-- test minimu
+testminimuTree1 = TestCase (assertEqual "testminimuTree1" 10  (minimu (tree1))
+testminimuTree2 = TestCase (assertEqual "testminimuTree2" 10  (minimu (tree2))
+testminimuTree3 = TestCase (assertEqual "testminimuTree3" 2  (minimu (tree3))
+testminimuTree4 = TestCase (assertEqual "testminimuTree4" 2  (minimu (tree3))
+testminimuTree5 = TestCase (assertEqual "testminimuTree5" 2  (minimu (tree3))
+testminimuTree6 = TestCase (assertEqual "testminimuTree6" 2  (minimu (tree3))
+testminimuTree7 = TestCase (assertEqual "testminimuTree7" -1  (minimu (tree3))  
 
---testminimum1 = TestCase (assertEqual "testminimum1" 5  (minimum (Node 10 (Node 5 NIL NIL) (Node 20 NIL NIL)) ))
---testminimum2 = TestCase (assertEqual "testminimum2" 1  (minimum (Node 5 (Node 4 (Node 3 (Node 2 (Node 1 NIL NIL) NIL) NIL) NIL) NIL) ))
+
+
+
+--Teste de Wagner Fim--
 
 tests = TestList [testsize1,testsize2,testsize3,testisbst1,testisbst2,
                   testisbst3,testinsert1,testinsert2,testinsert3,testsearch1,
@@ -291,7 +312,11 @@ tests = TestList [testsize1,testsize2,testsize3,testisbst1,testisbst2,
                   testInsert10, testInsert18, testInsert2, testInsert13, testInsert19,
                   testInsert8, testInsertNeg1, testSize1, testSize2, testSize3, testSizeNIL,
                   testSearchNeg1, testSearch18, testSearch13, testSearchRoot, testSearchNoExist
-                  testRemove1, testRemove1a, testRemove2, testRemove2a, testRemove2b]
+                  testRemove1, testRemove1a, testRemove2, testRemove2a, testRemove2b, testRemove3,
+                  testRemove3a, testRemove3atestmaximumTree1, testmaximumTree2, testmaximumTree3,
+                  testmaximumTree4, testmaximumTree5, testmaximumTree6, testmaximumTree7, 
+                  testminimuTree1, testminimuTree2, testminimuTree3, testminimuTree4, testminimuTree5, 
+                  testminimuTree6, testminimuTree7]
 
 -- Por favor atualizar esta lista
 {- 
