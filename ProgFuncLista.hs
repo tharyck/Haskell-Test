@@ -215,6 +215,19 @@ position_search x (a : xs) p = if x == a
 
 -- Testes BST - Igor Brasileiro --
 -- fazer metodo fullfill?
+arrayInsercao = [10, 18, 2, 13, 19, 8, -1]
+
+
+fullFill lista = fullFillTree (tail lista) newTree
+	where
+		newTree = insert (head lista) NIL
+
+
+fullFillTree [] tree = tree
+
+fullFillTree lista tree = fullFillTree (tail lista) newTree
+	where
+		newTree = insert  (head lista) tree
 
 tree1 = (Node 10 NIL NIL)
 tree2 = (Node 10 NIL (Node 18 NIL NIL))
@@ -241,6 +254,7 @@ testInsertNeg1 = TestCase (assertEqual "testInsertNeg1" tree7 (insert (-1) tree6
 --test size
 testSize1 = TestCase (assertEqual "testSize1" 7 (sizeBST tree7))
 testSize2 = TestCase (assertEqual "testSize2" 6 (sizeBST tree6))
+testSize3 = TestCase (assertEqual "testSize3" 1 (sizeBST tree1))
 testSizeNIL = TestCase (assertEqual "testSizeNIL" 0 (sizeBST NIL))
 
 -- test search
@@ -250,9 +264,15 @@ testSearch13 = TestCase (assertEqual "testSearch13" treeSearch13 (search 13 tree
 testSearchRoot = TestCase (assertEqual "testSearchRoot" tree7 (search 10 tree7)) -- pesquisa root
 testSearchNoExist = TestCase (assertEqual "testSearchNoExist" NIL (search 33 tree7))
 
-
 -- test remove
+
 -- remover 13
+testRemove1 = TestCase (assertEqual "testRemove1" 6 sizeBST(remove 18 tree7))
+testRemove1a = TestCase (assertEqual "testRemove1a" NIL (search 18 (remove 18 tree7))) -- remove da bst de no que nao existe retorna nil?
+testRemove2 = TestCase (assertEqual "testRemove2" 5 sizeBST(remove 13 (remove 18 tree7)))
+testRemove2a = TestCase (assertEqual "testRemove2a" NIL (search 13 (remove 13 (remove 18 tree7))))
+testRemove2b = TestCase (assertEqual "testRemove2b" (Node 19 NIL NIL) (search 19 (remove 13 (remove 18 tree7))))
+
 
 -- Termino Testes BST - Igor Brasileiro --
 
@@ -269,8 +289,9 @@ tests = TestList [testsize1,testsize2,testsize3,testisbst1,testisbst2,
                   testsuccessor1,testsuccessor2,testremove1,testremove2,
                   testremove3,testremove4,testpreorder,testorder,testpostorder,
                   testInsert10, testInsert18, testInsert2, testInsert13, testInsert19,
-                  testInsert8, testInsertNeg1, testSize1, testSize2, testSizeNIL,
-                  testSearchNeg1, testSearch18, testSearch13, testSearchRoot, testSearchNoExist]
+                  testInsert8, testInsertNeg1, testSize1, testSize2, testSize3, testSizeNIL,
+                  testSearchNeg1, testSearch18, testSearch13, testSearchRoot, testSearchNoExist
+                  testRemove1, testRemove1a, testRemove2, testRemove2a, testRemove2b]
 
 -- Por favor atualizar esta lista
 {- 
