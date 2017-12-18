@@ -352,14 +352,14 @@ tests = TestList [testsize1,testsize2,testsize3,testisbst1,testisbst2,
 -- Por favor atualizar esta lista
 {- 
   sizeBST - Igor - OK
-  isBST - Igor - vou fazer
+  isBST - Igor - OK
   insert - Igor - OK
   search - Igor - OK
   maximu - Wagner - ok
   minimu - Wagner - ok
   predecessor 
   sucessor
-  remove - Igor - vou fazer
+  remove - Igor - OK
   preOrder - Wagner - OK
   postOrder - Wagner - OK
   order - Wagner - Ok
