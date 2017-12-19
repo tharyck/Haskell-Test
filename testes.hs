@@ -4,31 +4,46 @@ import TipoDeDados
 import Prelude hiding (maximum, minimum)
 
 testTripleFst = TestCase (assertEqual "Test of Fst element" 1 (tripleFst(Triple 1 2 3)))
+testTripleFstNil = TestCase (assertEqual "Test of Fst element Nil" Nil (tripleFst(Triple Nil 2 3)))
+
 testTripleSnd = TestCase (assertEqual "Test of Snd element" 2 (tripleSnd(Triple 1 2 3)))
+testTripleSndNil = TestCase (assertEqual "Test of Snd element Nil" Nil (tripleSnd(Triple 1 Nil 3)))
+
 testTripleThr = TestCase (assertEqual "Test of Thr element" 3 (tripleThr(Triple 1 2 3)))
+testTripleThrNil = TestCase (assertEqual "Test of Thr element Nil" Nil (tripleThr(Triple 1 2 Nil)))
 
-
+-- Testa Quadruplas
 testFirstTwo = TestCase (assertEqual "Test of firstTwo elements" (1,2) (firstTwo(Quadruple 1 2 3 4)))
 testSecondTwo = TestCase (assertEqual "Test of secondTwo elements" (3,4) (secondTwo(Quadruple 1 2 3 4)))
 
-
+-- Testa Tuplas
 testTuple1and1 = TestCase(assertEqual "Test Tuple 1 for 1 element" 1 (tuple1(Tuple1 1)))
 testTuple1and2 = TestCase(assertEqual "Test Tuple 1 for 2 element" 1 (tuple1(Tuple2 1 2)))
 testTuple1and3 = TestCase(assertEqual "Test Tuple 1 for 3 element" 1 (tuple1(Tuple3 1 2 3)))
 testTuple1and4 = TestCase(assertEqual "Test Tuple 1 for 4 element" 1 (tuple1(Tuple4 1 2 3 4)))
 
-
 testTuple2and2 = TestCase(assertEqual "Test Tuple 2 for 2 element" (Just 2) (tuple2(Tuple2 1 2)))
 testTuple2and3 = TestCase(assertEqual "Test Tuple 2 for 3 element" (Just 2) (tuple2(Tuple3 1 2 3)))
 testTuple2and4 = TestCase(assertEqual "Test Tuple 2 for 4 element" (Just 2) (tuple2(Tuple4 1 2 3 4)))
-
 
 testTuple3and3 = TestCase(assertEqual "Test Tuple 3 for 3 element" (Just 3) (tuple3(Tuple3 1 2 3)))
 testTuple3and4 = TestCase(assertEqual "Test Tuple 3 for 4 element" (Just 3) (tuple3(Tuple4 1 2 3 4)))
 
 testTuple4and4 = TestCase(assertEqual "Test Tuple 4 for 4 element" (Just 4) (tuple4(Tuple4 1 2 3 4)))
 
+-- Testa Tamanho da Lista
 testListLength = TestCase (assertEqual "Testa listLength para Nil" 0 (listLength Nil))
+testListLength1 = TestCase (assertEqual"Testa listLength" 3 (listLength (Cons 1(Cons 2 (Cons 3 Nil))))
+
+-- Testa Cabeca da Lista
+-- testListHead = TestCase (assertEqual "Testa listHead para Nil" (error "Empty list") (listHead Nil)) Teste deve retornar um error
+testListHead = TestCase (assertEqual "Testa listHead para uma lista" 1 (listHead (Cons 1(Cons 2(Cons 3 Nil)))))
+
+-- Testa a calda de uma Lista
+testListTail = TestCase (assertEqual "Testa listHead para Nil" Nil (listHead Nil))
+testListTail1 = TestCase (assertEqual "Testa listHead para lista" (Cons 2 (Cons 3 Nil)) (listHead (Cons 1(Cons 2(Cons 3 Nil)))))
+
+-- Testa foldR
 
 
 testsize1 = TestCase (assertEqual "size of empty tree" 0 (sizeBST NIL))
