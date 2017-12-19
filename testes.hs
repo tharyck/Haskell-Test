@@ -3,14 +3,17 @@ import Test.HUnit
 import TipoDeDados
 import Prelude hiding (maximum, minimum)
 
-testTripleFst = TestCase (assertEqual "Test of Fst element" 1 (tripleFst(Triple 1 2 3)))
-testTripleFstNil = TestCase (assertEqual "Test of Fst element Nil" Nil (tripleFst(Triple Nil 2 3)))
+dataTeste = TipoDeDados.listHead (Cons 1(Cons 2(Cons 3 Nil)))
+
+testTripleFst = TestCase (assertEqual "Test of Fst element" 1 (TipoDeDados.tripleFst(Triple 1 2 3)))
+-- $ assertEqual "for (func [])," [] $ func ([] :: [Int])
+--testTripleFstNil = TestCase $ assertEqual "Test of Fst element Nil" Nil $ (TipoDeDados.tripleFst(Triple Nil 2 3))
 
 testTripleSnd = TestCase (assertEqual "Test of Snd element" 2 (tripleSnd(Triple 1 2 3)))
-testTripleSndNil = TestCase (assertEqual "Test of Snd element Nil" Nil (tripleSnd(Triple 1 Nil 3)))
+--testTripleSndNil = TestCase (assertEqual "Test of Snd element Nil" Nil (tripleSnd(Triple 1 Nil 3)))
 
 testTripleThr = TestCase (assertEqual "Test of Thr element" 3 (tripleThr(Triple 1 2 3)))
-testTripleThrNil = TestCase (assertEqual "Test of Thr element Nil" Nil (tripleThr(Triple 1 2 Nil)))
+--testTripleThrNil = TestCase (assertEqual "Test of Thr element Nil" Nil (tripleThr(Triple 1 2 Nil)))
 
 -- Testa Quadruplas
 testFirstTwo = TestCase (assertEqual "Test of firstTwo elements" (1,2) (firstTwo(Quadruple 1 2 3 4)))
@@ -33,15 +36,15 @@ testTuple4and4 = TestCase(assertEqual "Test Tuple 4 for 4 element" (Just 4) (tup
 
 -- Testa Tamanho da Lista
 testListLength = TestCase (assertEqual "Testa listLength para Nil" 0 (listLength Nil))
-testListLength1 = TestCase (assertEqual"Testa listLength" 3 (listLength (Cons 1(Cons 2 (Cons 3 Nil))))
+testListLength1 = TestCase (assertEqual"Testa listLength" 3 (listLength (Cons 1(Cons 2 (Cons 3 Nil)))))
 
 -- Testa Cabeca da Lista
 -- testListHead = TestCase (assertEqual "Testa listHead para Nil" (error "Empty list") (listHead Nil)) Teste deve retornar um error
-testListHead = TestCase (assertEqual "Testa listHead para uma lista" 1 (listHead (Cons 1(Cons 2(Cons 3 Nil)))))
+testListHead = TestCase $ assertEqual "Testa listHead para uma lista" 1 $ listHead (Cons 1(Cons 2(Cons 3 Nil)))
 
 -- Testa a calda de uma Lista
-testListTail = TestCase (assertEqual "Testa listHead para Nil" Nil (listHead Nil))
-testListTail1 = TestCase (assertEqual "Testa listHead para lista" (Cons 2 (Cons 3 Nil)) (listHead (Cons 1(Cons 2(Cons 3 Nil)))))
+testListTail = TestCase $ assertEqual "Testa listHead para Nil" (Nil :: TipoDeDados.List()) $ listHead Nil
+testListTail1 = TestCase $ assertEqual "Testa listHead para lista" (Cons 2 (Cons 3 Nil)) $ listHead (Cons 1 (Cons 2(Cons 3 Nil)))
 
 -- Testa foldR
 
@@ -100,7 +103,7 @@ fullFillTree lista tree = fullFillTree (tail lista) newTree
       where
             newTree = insert  (head lista) tree
 
-tree1 = Node
+tree1 = Node 10 
 tree2 = (Node 10 NIL (Node 18 NIL NIL))
 tree3 = (Node 10 (Node 2 NIL NIL) (Node 18 NIL NIL))
 tree4 = (Node 10 (Node 2 NIL NIL) (Node 18 (Node 13 NIL NIL) NIL))

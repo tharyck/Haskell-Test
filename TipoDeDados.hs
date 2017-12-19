@@ -1,9 +1,9 @@
 module TipoDeDados (
-	Triple(Triple),
-	Quadruple(Quadruple),
+	Triple(..),
+	Quadruple(..),
 	Tuple(Tuple1, Tuple2, Tuple3, Tuple4),
 	List(Nil, Cons),
-	BinaryTree(..),
+	BinaryTree(NIL, Node),
 	tripleFst,
 	tripleSnd,
 	tripleThr,
