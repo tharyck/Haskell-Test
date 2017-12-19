@@ -90,9 +90,6 @@ testpostorder = TestCase (assertEqual "testpostorder" [1,2,4,3] (postOrder (Node
 
 -- Testes BST - Igor Brasileiro --
 -- fazer metodo fullfill?
-arrayInsercao = [10, 18, 2, 13, 19, 8, -1]
-
-
 fullFill lista = fullFillTree (tail lista) newTree
       where
             newTree = insert (head lista) NIL
@@ -104,12 +101,12 @@ fullFillTree lista tree = fullFillTree (tail lista) newTree
       where
             newTree = insert  (head lista) tree
 
-tree1 = (Node (10 :: Int) NIL NIL)
-tree2 = (Node (10 :: Int) NIL (Node 18 NIL NIL))
-tree3 = (Node (10 :: Int) (Node 2 NIL NIL) (Node 18 NIL NIL))
-tree4 = (Node (10 :: Int) (Node 2 NIL NIL) (Node 18 (Node 13 NIL NIL) NIL))
-tree5 = (Node (10 :: Int) (Node 2 NIL NIL) (Node 18 (Node 13 NIL NIL) (Node 19 NIL NIL)))
-tree6 = (Node (10 :: Int) (Node 2 NIL (Node 8 NIL NIL)) (Node 18 (Node 13 NIL NIL) (Node 19 NIL NIL)))
+tree1 = (Node 10 NIL NIL)
+tree2 = (Node 10 NIL (Node 18 NIL NIL))
+tree3 = (Node 10 (Node 2 NIL NIL) (Node 18 NIL NIL))
+tree4 = (Node 10 (Node 2 NIL NIL) (Node 18 (Node 13 NIL NIL) NIL))
+tree5 = (Node 10 (Node 2 NIL NIL) (Node 18 (Node 13 NIL NIL) (Node 19 NIL NIL)))
+tree6 = (Node 10 (Node 2 NIL (Node 8 NIL NIL)) (Node 18 (Node 13 NIL NIL) (Node 19 NIL NIL)))
 tree7 = fullFill [10, 18, 19, 13, 2, 8, (-1)]
 
 treeSearchNeg1 = (Node ((-1) :: Int) NIL NIL)
@@ -139,18 +136,37 @@ testSearch13 = TestCase (assertEqual "testSearch13" treeSearch13 (search 13 tree
 testSearchRoot = TestCase (assertEqual "testSearchRoot" tree7 (search 10 tree7)) -- pesquisa root
 testSearchNoExist = TestCase (assertEqual "testSearchNoExist" NIL (search 33 tree7))
 
--- test remove
+-- test remove [10, 18, 19, 13, 2, 8, (-1)]
 
--- remover 13
+-- remover 
 testRemove1 = TestCase (assertEqual "testRemove1" 6 (sizeBST(remove 18 tree7)))
 testRemove1a = TestCase (assertEqual "testRemove1a" NIL (search 18 (remove 18 tree7))) -- remove da bst de no que nao existe retorna nil?
+
 testRemove2 = TestCase (assertEqual "testRemove2" 5 (sizeBST(remove 13 (remove 18 tree7))))
 testRemove2a = TestCase (assertEqual "testRemove2a" NIL (search 13 (remove 13 (remove 18 tree7))))
 testRemove2b = TestCase (assertEqual "testRemove2b" (Node 19 NIL NIL) (search 19 (remove 13 (remove 18 tree7))))
 
 testRemove3 = TestCase (assertEqual "testRemove3" 6 (sizeBST(remove 8 tree7)))
-testRemove3a = TestCase (assertEqual "testRemove3a" NIL (search 6 tree7))
+testRemove3a = TestCase (assertEqual "testRemove3a" NIL (search 8 (remove 8 tree7)))
 
+testRemove4 = TestCase (assertEqual "testRemove4" 6 (sizeBST(remove (-1) tree7)))
+testRemove4a = TestCase (assertEqual "testRemove4a" 2 (minimum (remove (-1) tree7)))
+-- testRemove Joelho
+
+treeJoelho = fullFill [20, 30, 29, 40, 38]
+
+testRemove5 = TestCase (assertEqual "testRemove5" 4 (sizeBST(remove 30 treeJoelho)))
+testRemove5a = TestCase (assertEqual "testRemove5a" NIL (search 30 (remove 30 treeJoelho)))
+-- assumindo que utilizou sucessor no remove, conforme professor falou. O teste abaixo garante que o Nó 38 subiu para lugar do 30 e nó 38 foi removido do 40.
+testRemove5b = TestCase (assertEqual "testRemove5b" (Node 38 (Node 29 NIL NIL) (Node 40 NIL NIL)) (search 38 (remove 30 treeJoelho)))
+
+-- Teste isBST
+treeLeftSonHigherFather = (Node 36 (Node 25 (Node 30 NIL NIL) (Node 32 NIL NIL)) NIL)
+treeLeftSonHigherRoot = (Node 36 (Node 25 (Node 30 NIL NIL) (Node 50 NIL NIL)) NIL)
+
+testIsBST1 = TestCase (assertEqual "testIsBST1" False (isBST treeLeftSonHigherFather))
+testIsBST2 = TestCase (assertEqual "testIsBST2" False (isBST treeLeftSonHigherRoot))
+testIsBST3 = TestCase (assertEqual "testIsBST3" True (isBST tree7))
 
 -- test maximum
 testmaximumTree1 = TestCase (assertEqual "testmaximumTree1" 10  (maximum (tree1)))
@@ -214,7 +230,8 @@ tests = TestList [testsize1,testsize2,testsize3,testisbst1,testisbst2,
                   testInsert8, testInsertNeg1, testSize1, testSize2, testSize3, testSizeNIL,
                   testSearchNeg1, testSearch18, testSearch13, testSearchRoot, testSearchNoExist,
                   testRemove1, testRemove1a, testRemove2, testRemove2a, testRemove2b, testRemove3,
-                  testRemove3a, testRemove3a, testmaximumTree1, testmaximumTree2, testmaximumTree3,
+                  testRemove3a, testRemove4, testRemove4a, testRemove5, testRemove5a, testRemove5b,
+                  testIsBST1, testIsBST2, testIsBST3, testmaximumTree1, testmaximumTree2, testmaximumTree3,
                   testmaximumTree4, testmaximumTree5, testmaximumTree6, testmaximumTree7, 
                   testminimuTree1, testminimuTree2, testminimuTree3, testminimuTree4, testminimuTree5, 
                   testminimuTree6, testminimuTree7, testOrderTree1, testOrderTree2, testOrderTree3, testOrderTree4,
@@ -223,6 +240,8 @@ tests = TestList [testsize1,testsize2,testsize3,testisbst1,testisbst2,
                   testPostOrderTree2, testPostOrderTree3, testPostOrderTree4, testPostOrderTree5, testPostOrderTree6,
                   testPostOrderTree7, testPostOrderNIL]
 
+
+executaTests = runTestTT tests
 -- Por favor atualizar esta lista
 {- 
   sizeBST - Igor - OK

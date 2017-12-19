@@ -151,10 +151,26 @@ module TipoDeDados (
 		| e > root = successor e right
 
 	--remove um elemento da BST
-	remove b (Node a NIL NIL) = 
+	{- remove b (Node a NIL NIL) = 
 		if a == b
 			then NIL
-			else (Node a NIL NIL)
+			else (Node a NIL NIL) -}
+	remove x NIL = NIL
+	remove x (Node a left right) = if x == a
+	  then remove_action x (Node a left right)
+	  else (if x < a
+	    then Node a (remove x (left)) right
+	    else Node a left (remove x (right)))
+	--remove ume lemento da BST
+	remove_action x NIL = NIL
+	--elemento eh folha
+	remove_action x (Node b NIL NIL) = NIL
+	--elemento tem um filho
+	remove_action x (Node b left NIL) = left
+
+	remove_action x (Node b NIL right) = right
+	--elemento tem dois filhos
+	remove_action x (Node b left right) = Node (successor b (Node b NIL right)) left (remove (successor b (Node b NIL right)) right)
 
 
 	--retorna uma lista com os dados da BST nos diversos tipos de caminhamento
