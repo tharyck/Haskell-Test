@@ -3,17 +3,18 @@ import Test.HUnit
 import TipoDeDados
 import Prelude hiding (maximum, minimum)
 
-dataTeste = TipoDeDados.listHead (Cons 1(Cons 2(Cons 3 Nil)))
+dataTeste = listHead $ (Cons (1 :: Int) (Cons 2(Cons 3 Nil)))
+
 
 testTripleFst = TestCase (assertEqual "Test of Fst element" 1 (TipoDeDados.tripleFst(Triple 1 2 3)))
 -- $ assertEqual "for (func [])," [] $ func ([] :: [Int])
---testTripleFstNil = TestCase $ assertEqual "Test of Fst element Nil" Nil $ (TipoDeDados.tripleFst(Triple Nil 2 3))
+testTripleFstNil = TestCase $ assertEqual "Test of Fst element Nil" (Nil :: TipoDeDados.List()) $ (tripleFst(Triple Nil 2 3))
 
 testTripleSnd = TestCase (assertEqual "Test of Snd element" 2 (tripleSnd(Triple 1 2 3)))
---testTripleSndNil = TestCase (assertEqual "Test of Snd element Nil" Nil (tripleSnd(Triple 1 Nil 3)))
+testTripleSndNil = TestCase (assertEqual "Test of Snd element Nil" (Nil :: TipoDeDados.List()) (tripleSnd(Triple 1 Nil 3)))
 
 testTripleThr = TestCase (assertEqual "Test of Thr element" 3 (tripleThr(Triple 1 2 3)))
---testTripleThrNil = TestCase (assertEqual "Test of Thr element Nil" Nil (tripleThr(Triple 1 2 Nil)))
+testTripleThrNil = TestCase (assertEqual "Test of Thr element Nil" (Nil :: TipoDeDados.List()) (tripleThr(Triple 1 2 Nil)))
 
 -- Testa Quadruplas
 testFirstTwo = TestCase (assertEqual "Test of firstTwo elements" (1,2) (firstTwo(Quadruple 1 2 3 4)))
@@ -44,7 +45,7 @@ testListHead = TestCase $ assertEqual "Testa listHead para uma lista" 1 $ listHe
 
 -- Testa a calda de uma Lista
 testListTail = TestCase $ assertEqual "Testa listHead para Nil" (Nil :: TipoDeDados.List()) $ listHead Nil
-testListTail1 = TestCase $ assertEqual "Testa listHead para lista" (Cons 2 (Cons 3 Nil)) $ listHead (Cons 1 (Cons 2(Cons 3 Nil)))
+testListTail1 = TestCase $ assertEqual "Testa listHead para lista" 1 $ dataTeste
 
 -- Testa foldR
 
@@ -103,15 +104,15 @@ fullFillTree lista tree = fullFillTree (tail lista) newTree
       where
             newTree = insert  (head lista) tree
 
-tree1 = Node 10 
-tree2 = (Node 10 NIL (Node 18 NIL NIL))
-tree3 = (Node 10 (Node 2 NIL NIL) (Node 18 NIL NIL))
-tree4 = (Node 10 (Node 2 NIL NIL) (Node 18 (Node 13 NIL NIL) NIL))
-tree5 = (Node 10 (Node 2 NIL NIL) (Node 18 (Node 13 NIL NIL) (Node 19 NIL NIL)))
-tree6 = (Node 10 (Node 2 NIL (Node 8 NIL NIL)) (Node 18 (Node 13 NIL NIL) (Node 19 NIL NIL)))
+tree1 = (Node (10 :: Int) NIL NIL)
+tree2 = (Node (10 :: Int) NIL (Node 18 NIL NIL))
+tree3 = (Node (10 :: Int) (Node 2 NIL NIL) (Node 18 NIL NIL))
+tree4 = (Node (10 :: Int) (Node 2 NIL NIL) (Node 18 (Node 13 NIL NIL) NIL))
+tree5 = (Node (10 :: Int) (Node 2 NIL NIL) (Node 18 (Node 13 NIL NIL) (Node 19 NIL NIL)))
+tree6 = (Node (10 :: Int) (Node 2 NIL (Node 8 NIL NIL)) (Node 18 (Node 13 NIL NIL) (Node 19 NIL NIL)))
 tree7 = fullFill [10, 18, 19, 13, 2, 8, (-1)]
 
-treeSearchNeg1 = (Node (-1) NIL NIL)
+treeSearchNeg1 = (Node ((-1) :: Int) NIL NIL)
 treeSearch18 = (Node 18 (Node 13 NIL NIL) (Node 19 NIL NIL))
 treeSearch13 = (Node 13 NIL NIL)
 
@@ -141,13 +142,13 @@ testSearchNoExist = TestCase (assertEqual "testSearchNoExist" NIL (search 33 tre
 -- test remove
 
 -- remover 13
-testRemove1 = TestCase (assertEqual "testRemove1" 6 sizeBST(remove 18 tree7))
+testRemove1 = TestCase (assertEqual "testRemove1" 6 (sizeBST(remove 18 tree7)))
 testRemove1a = TestCase (assertEqual "testRemove1a" NIL (search 18 (remove 18 tree7))) -- remove da bst de no que nao existe retorna nil?
-testRemove2 = TestCase (assertEqual "testRemove2" 5 sizeBST(remove 13 (remove 18 tree7)))
+testRemove2 = TestCase (assertEqual "testRemove2" 5 (sizeBST(remove 13 (remove 18 tree7))))
 testRemove2a = TestCase (assertEqual "testRemove2a" NIL (search 13 (remove 13 (remove 18 tree7))))
 testRemove2b = TestCase (assertEqual "testRemove2b" (Node 19 NIL NIL) (search 19 (remove 13 (remove 18 tree7))))
 
-testRemove3 = TestCase (assertEqual "testRemove3" 6 sizeBST(remove 8 tree7))
+testRemove3 = TestCase (assertEqual "testRemove3" 6 (sizeBST(remove 8 tree7)))
 testRemove3a = TestCase (assertEqual "testRemove3a" NIL (search 6 tree7))
 
 
@@ -156,9 +157,9 @@ testmaximumTree1 = TestCase (assertEqual "testmaximumTree1" 10  (maximum (tree1)
 testmaximumTree2 = TestCase (assertEqual "testmaximumTree2" 18  (maximum (tree2)))
 testmaximumTree3 = TestCase (assertEqual "testmaximumTree3" 18  (maximum (tree3)))
 testmaximumTree4 = TestCase (assertEqual "testmaximumTree4" 18  (maximum (tree3)))
-testmaximumTree5 = TestCase (assertEqual "testmaximumTree5" 19  (maximum (tree3)))
-testmaximumTree6 = TestCase (assertEqual "testmaximumTree6" 19  (maximum (tree3)))
-testmaximumTree7 = TestCase (assertEqual "testmaximumTree7" 19  (maximum (tree3)))
+testmaximumTree5 = TestCase (assertEqual "testmaximumTree5" 19  (maximum (tree5)))
+testmaximumTree6 = TestCase (assertEqual "testmaximumTree6" 19  (maximum (tree5)))
+testmaximumTree7 = TestCase (assertEqual "testmaximumTree7" 19  (maximum (tree5)))
 
 -- test minimu
 testminimuTree1 = TestCase (assertEqual "testminimuTree1" 10  (minimum (tree1)))
@@ -167,7 +168,7 @@ testminimuTree3 = TestCase (assertEqual "testminimuTree3" 2  (minimum (tree3)))
 testminimuTree4 = TestCase (assertEqual "testminimuTree4" 2  (minimum (tree3)))
 testminimuTree5 = TestCase (assertEqual "testminimuTree5" 2  (minimum (tree3)))
 testminimuTree6 = TestCase (assertEqual "testminimuTree6" 2  (minimum (tree3)))
-testminimuTree7 = TestCase (assertEqual "testminimuTree7" -1  (minimum (tree3)))  
+testminimuTree7 = TestCase (assertEqual "testminimuTree7" (-1)  (minimum (tree7)))  
 
 -- test order
 testOrderTree1 = TestCase (assertEqual "testOrderTree1" [10]  (order (tree1)))
@@ -177,7 +178,7 @@ testOrderTree4 = TestCase (assertEqual "testOrderTree4" [2, 10, 13, 18]  (order 
 testOrderTree5 = TestCase (assertEqual "testOrderTree6" [2, 10, 13, 18, 19]  (order (tree5)))
 testOrderTree6 = TestCase (assertEqual "testOrderTree6" [2, 8, 10, 13, 18, 19]  (order (tree6)))
 testOrderTree7 = TestCase (assertEqual "testOrderTree7" [-1, 2, 8, 10, 13, 18, 19]  (order (tree7)))
-testOrderNIL = TestCase (assertEqual "testOrderNIL" []  (order (NIL)))
+testOrderNIL = TestCase (assertEqual "testOrderNIL" ([]::[Int])  (order (NIL)))
 
 -- test preOrder 
 testPreOrderTree1 = TestCase (assertEqual "testPreOrderTree1" [10]  (preOrder (tree1)))
@@ -187,7 +188,7 @@ testPreOrderTree4 = TestCase (assertEqual "testPreOrderTree4" [10, 2, 18, 13]  (
 testPreOrderTree5 = TestCase (assertEqual "testPreOrderTree5" [10, 2, 18, 13, 19]  (preOrder (tree5)))
 testPreOrderTree6 = TestCase (assertEqual "testPreOrderTree6" [10, 2, 8, 18, 13, 19]  (preOrder (tree6)))
 testPreOrderTree7 = TestCase (assertEqual "testPreOrderTree7" [10, 2, -1, 8, 18, 13, 19]  (preOrder (tree7)))
-testPreOrderNIL = TestCase (assertEqual "testPreOrderNIL" []  (preOrder (NIL)))
+testPreOrderNIL = TestCase (assertEqual "testPreOrderNIL" ([]::[Int])  (preOrder (NIL)))
 
 -- test postOrder
 testPostOrderTree1 = TestCase (assertEqual "testPostOrderTree1" [10]  (postOrder (tree1)))
@@ -197,7 +198,7 @@ testPostOrderTree4 = TestCase (assertEqual "testPostOrderTree4" [2, 13, 18, 10] 
 testPostOrderTree5 = TestCase (assertEqual "testPostOrderTree5" [2, 13, 19, 18, 10]  (postOrder (tree5)))
 testPostOrderTree6 = TestCase (assertEqual "testPostOrderTree6" [8, 2, 13, 19, 18, 10]  (postOrder (tree6)))
 testPostOrderTree7 = TestCase (assertEqual "testPostOrderTree7" [-1, 8, 2, 13, 19, 18, 10]  (postOrder (tree7)))
-testPostOrderNIL = TestCase (assertEqual "testPostOrderNIL" []  (postOrder (NIL)))
+testPostOrderNIL = TestCase (assertEqual "testPostOrderNIL" ([]::[Int]) (postOrder (NIL)))
 
 
 -- Termino Testes BST - 
@@ -211,7 +212,7 @@ tests = TestList [testsize1,testsize2,testsize3,testisbst1,testisbst2,
                   testremove3,testremove4,testpreorder,testorder,testpostorder,
                   testInsert10, testInsert18, testInsert2, testInsert13, testInsert19,
                   testInsert8, testInsertNeg1, testSize1, testSize2, testSize3, testSizeNIL,
-                  testSearchNeg1, testSearch18, testSearch13, testSearchRoot, testSearchNoExist
+                  testSearchNeg1, testSearch18, testSearch13, testSearchRoot, testSearchNoExist,
                   testRemove1, testRemove1a, testRemove2, testRemove2a, testRemove2b, testRemove3,
                   testRemove3a, testRemove3a, testmaximumTree1, testmaximumTree2, testmaximumTree3,
                   testmaximumTree4, testmaximumTree5, testmaximumTree6, testmaximumTree7, 
