@@ -1,8 +1,8 @@
-import Test.HUnit
---import ProgFuncLista
+import Test.HUnit 
 import TipoDeDados
 import Prelude hiding (maximum, minimum)
 
+--Tharyck
 testTripleFst = TestCase (assertEqual "Test of Fst element" 1 (TipoDeDados.tripleFst(Triple 1 2 3)))
 -- $ assertEqual "for (func [])," [] $ func ([] :: [Int])
 testTripleFstNil = TestCase $ assertEqual "Test of Fst element Nil" (Nil :: TipoDeDados.List()) $ (tripleFst(Triple Nil 2 3))
@@ -44,8 +44,14 @@ testListHead = TestCase $ assertEqual "Testa listHead para uma lista" 1 $ listHe
 testListTail = TestCase $ assertEqual "Testa listHead para Nil" (Nil :: TipoDeDados.List()) $ listHead Nil
 testListTail1 = TestCase $ assertEqual "Testa listHead para lista" 1 $ listHead $ (Cons (1 :: Int) (Cons 2(Cons 3 Nil)))
 
--- Testa foldR
+-- Testa foldL
+testListFoldl = TestCase $ (assertEqual "Testa listFoldl para Nil" (0::Int) (listFoldl (+) 0 Nil))
+testListFoldl1 = TestCase $ (assertEqual " Testa listFoldl " (15:: Int)  $ listFoldl (+) 0 (Cons (1 :: Int) (Cons 2(Cons 3(Cons 4(Cons 5 Nil))))))
 
+--Testa foldR
+testListFoldr = TestCase $ (assertEqual "Testa listFoldr para Nil" (0::Int) (listFoldl (+) 0 Nil))
+testListFoldr1 = TestCase $ (assertEqual " Testa listFoldl " (6:: Int)  $ listFoldl (+) 0 (Cons (1 :: Int) (Cons 2(Cons 3 Nil))))
+ -- Fim Testes Tharyck
 
 testsize1 = TestCase (assertEqual "size of empty tree" 0 (sizeBST NIL))
 testsize2 = TestCase (assertEqual "size of very unbalanced tree" 5 (sizeBST (Node 3 NIL (Node 4 NIL (Node 5 NIL (Node 9 (Node 7 NIL NIL) NIL))) )))
@@ -218,7 +224,12 @@ testPostOrderNIL = TestCase (assertEqual "testPostOrderNIL" ([]::[Int]) (postOrd
 
 
 
-tests = TestList [testsize1,testsize2,testsize3,testisbst1,testisbst2,
+tests = TestList [testTripleFst,testTripleFstNil,testTripleSnd,testTripleSndNil,testTripleThr,
+                  testTripleThrNil,testFirstTwo,testSecondTwo,testTuple1and1,testTuple1and2,testTuple1and3,
+                  testTuple1and4,testTuple2and2,testTuple2and3,testTuple2and4,testTuple3and3,testTuple3and4,
+                  testTuple4and4, testListLength,testListLength1,testListHead,testListTail, testListTail1, 
+                  testListFoldl, testListFoldl1, testListFoldr, testListFoldr1,testsize1,testsize2,testsize3,
+                  testisbst1,testisbst2,
                   testisbst3,testinsert1,testinsert2,testinsert3,testsearch1,
                   testsearch2,testsearch3,testpredecessor1,testpredecessor2,
                   testsuccessor1,testsuccessor2,testremove1,testremove2,
@@ -240,12 +251,12 @@ tests = TestList [testsize1,testsize2,testsize3,testisbst1,testisbst2,
 
 
 main = do
-	executaTests <- runTestTT tests
-	let totalTestes = cases executaTests
-	let passaram = (tried executaTests) - (errors executaTests) - (failures executaTests)
-	let excecoes = errors executaTests
-	let falhas = failures executaTests
-	print("Total de testes = " ++ show(totalTestes) ++ " - Passaram = " ++ show(passaram) ++ " - Excecoes = " ++ show(excecoes) ++ " - Falhas = " ++ show(falhas))
+  executaTests <- runTestTT tests
+  let totalTestes = cases executaTests
+  let passaram = (tried executaTests) - (errors executaTests) - (failures executaTests)
+  let excecoes = errors executaTests
+  let falhas = failures executaTests
+  print("Total de testes = " ++ show(totalTestes) ++ " - Passaram = " ++ show(passaram) ++ " - Excecoes = " ++ show(excecoes) ++ " - Falhas = " ++ show(falhas))
 
 
 -- Por favor atualizar esta lista
