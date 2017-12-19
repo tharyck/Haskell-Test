@@ -3,9 +3,6 @@ import Test.HUnit
 import TipoDeDados
 import Prelude hiding (maximum, minimum)
 
-dataTeste = listHead $ (Cons (1 :: Int) (Cons 2(Cons 3 Nil)))
-
-
 testTripleFst = TestCase (assertEqual "Test of Fst element" 1 (TipoDeDados.tripleFst(Triple 1 2 3)))
 -- $ assertEqual "for (func [])," [] $ func ([] :: [Int])
 testTripleFstNil = TestCase $ assertEqual "Test of Fst element Nil" (Nil :: TipoDeDados.List()) $ (tripleFst(Triple Nil 2 3))
@@ -45,7 +42,7 @@ testListHead = TestCase $ assertEqual "Testa listHead para uma lista" 1 $ listHe
 
 -- Testa a calda de uma Lista
 testListTail = TestCase $ assertEqual "Testa listHead para Nil" (Nil :: TipoDeDados.List()) $ listHead Nil
-testListTail1 = TestCase $ assertEqual "Testa listHead para lista" 1 $ dataTeste
+testListTail1 = TestCase $ assertEqual "Testa listHead para lista" 1 $ listHead $ (Cons (1 :: Int) (Cons 2(Cons 3 Nil)))
 
 -- Testa foldR
 
@@ -241,7 +238,16 @@ tests = TestList [testsize1,testsize2,testsize3,testisbst1,testisbst2,
                   testPostOrderTree7, testPostOrderNIL]
 
 
-executaTests = runTestTT tests
+
+main = do
+	executaTests <- runTestTT tests
+	let totalTestes = cases executaTests
+	let passaram = (tried executaTests) - (errors executaTests) - (failures executaTests)
+	let excecoes = errors executaTests
+	let falhas = failures executaTests
+	print("Total de testes = " ++ show(totalTestes) ++ " - Passaram = " ++ show(passaram) ++ " - Excecoes = " ++ show(excecoes) ++ " - Falhas = " ++ show(falhas))
+
+
 -- Por favor atualizar esta lista
 {- 
   sizeBST - Igor - OK
