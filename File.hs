@@ -2,7 +2,7 @@
 
 module File (main) where
 
-import Testes
+import Testes as Teste
 import Test.HUnit
 import Data.List.Split
 import GHC.Generics
@@ -18,7 +18,8 @@ data Output = Output { matricula :: String, falhas :: Int,
 
 main :: String -> IO()
 main matricula = do
-  s <- runTestTT $ test $ mconcat [Testes.tests ]
+  --s <- runTestTT $ test $ mconcat [Testes.tests ]
+  s <- runTestTT Teste.tests
   generateResult matricula s
 
 generateResult :: String -> Counts -> IO ()
