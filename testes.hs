@@ -1,3 +1,4 @@
+module Testes (tests) where
 import Test.HUnit 
 import TipoDeDados
 import Prelude hiding (maximum, minimum)

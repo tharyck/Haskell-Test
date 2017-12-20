@@ -42,26 +42,18 @@ data List a = Nil | Cons a (List a) deriving (Eq,Show)
 listLength Nil = 0
 listLength (Cons x xs) = 1 + listLength xs
 
--- testListLength = TestCase (assertEqual "Testa listLength para Nil" 0 (listLength Nil))
-
-
 listHead Nil = error "Empty list"
 listHead (Cons x xs) = x
-
--- testListHead = TestCase (assertFailure  error "Empty list" (listHead Nil)) 
 
 listTail Nil = Nil
 listTail (Cons x xs) = xs
 
--- testListTail = TestCase (assertEqual "Testa listTail para Nil" Nil (listTail Nil))
-
-
 listFoldr f v Nil = v
 listFoldr f v (Cons x xs) = f x (listFoldr f v xs)
 
-
 listFoldl f v Nil = v
 listFoldl f v (Cons x xs) = listFoldl f (f v x) xs
+
 
 --Escreva as funcoes sobre a estrutura de dados binary tree
 data BinaryTree a = NIL | Node a (BinaryTree a) (BinaryTree a)
