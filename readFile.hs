@@ -1,5 +1,6 @@
 {-# LANGUAGE OverloadedStrings, DeriveGeneric, DeriveAnyClass #-}
 
+import Test.HUnit
 import Data.List.Split
 import GHC.Generics
 import System.IO as T
@@ -7,6 +8,7 @@ import Data.Text.Lazy (Text)
 import Data.Text.Lazy.IO as I
 import Data.Aeson.Text (encodeToLazyText)
 import Data.Aeson (ToJSON)
+import tests
 
 data Output = Output { matricula :: [Char], falhas :: Int,
                     passaram :: Int, totalTestes :: Int, excecoes :: Int} deriving (Show, Generic, ToJSON)

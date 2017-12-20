@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings, DeriveGeneric, DeriveAnyClass #-}
 
-module File (main) where
+module File (lerArquivo) where
 
 import Testes as Teste
 import Test.HUnit
@@ -16,8 +16,8 @@ data Output = Output { matricula :: String, falhas :: Int,
                     passaram :: Int, totalTestes :: Int, excecoes :: Int} deriving (Show, Generic, ToJSON)
 
 
-main :: String -> IO()
-main matricula = do
+lerArquivo :: String -> IO()
+lerArquivo matricula = do
   --s <- runTestTT $ test $ mconcat [Testes.tests ]
   s <- runTestTT Teste.tests
   generateResult matricula s
